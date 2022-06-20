@@ -28,16 +28,6 @@ variable "firewall_subnet"  {
     type = string
 }    
 
-variable "gateways_resource_group" {
-    description = "Resource Group for Virtual Network Gateways"
-    type = string
-}
-
-variable "firewall_resource_group" {
-    description = "Resource Group for AzureFirewall"
-    type = string
-}
-
 variable "identity_resource_group" {
     description = "Resource Group for Identity Vnet & subnets"
     type = string
@@ -56,4 +46,9 @@ variable "identity_vnet_location" {
 variable "identity_vnet_cidr" {
     description = "Identity Vnet CIDR"
     type = string
+}
+
+variable "identity_vnet_subnets" {
+    description = "Subnets of Identity Vnet"
+    type = map(any)
 }

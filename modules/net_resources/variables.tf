@@ -4,16 +4,6 @@ variable "hub_location"{
     type = string
 }
 
-variable "gateways_resource_group" {
-    description = "Resource Group for Virtual Network Gateways"
-    type = string
-}
-
-variable "firewall_resource_group" {
-    description = "Resource Group for AzureFirewall"
-    type = string
-}
-
 variable "gateway_subnet_id" {
     description = "Gateway Subnet for Virtual Network Gateways"
     type = string
@@ -21,5 +11,10 @@ variable "gateway_subnet_id" {
 
 variable "firewall_subnet_id" {
     description = "Azure Firewall Subnet for AzureFirewall resource"
+    type = string
+}
+
+variable "hub_resource_group" {
+    description = "Hub resource group"
     type = string
 }

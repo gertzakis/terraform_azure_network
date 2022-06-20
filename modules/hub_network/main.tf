@@ -7,6 +7,7 @@ terraform {
   }
 }
 
+# Hub Resource Group
 resource "azurerm_resource_group" "hub_vnet_rg" {
   name     = var.hub_resource_group
   location = var.hub_location

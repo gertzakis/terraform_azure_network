@@ -17,6 +17,11 @@ variable "spoke_vnet_cidr" {
   type        = string
 }
 
+variable "spoke_vnet_subnets" {
+  description = "Subnets of Spoke Vnet"
+  type = map(any)
+}
+
 variable "hub_vnet_id" {
   description = "ID of Hub Vnet"
   type        = string

@@ -22,11 +22,8 @@ variable "gateway_subnet"  {
     type = string
 }    
 
-
 variable "firewall_subnet"  {
     description = "Hub Virtual Network AzureFirewallSubnet CIDR"
     type = string
 }    
-
-
 
