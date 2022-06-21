@@ -99,3 +99,15 @@ variable "firewall_sku_tier" {
   type        = string
   default     = "Standard"
 }
+
+variable "conn_sub_id" {
+  description = "Connectivity Subscription ID"
+  type = string
+
+}
+
+variable "identity_sub_id" {
+  description = "Identity Subscription ID"
+  type = string
+
+}

@@ -19,6 +19,8 @@ resource "azurerm_public_ip" "hub_expressroute_gateway1_pip" {
 
 # Virtual Network Gateway - ExpressRoute
 resource "azurerm_virtual_network_gateway" "hub_expressroute_gateway" {
+  depends_on = [azurerm_public_ip.hub_expressroute_gateway1_pip]
+  
   name                = var.er_gateway_name
   location            = var.hub_location
   resource_group_name = var.hub_resource_group
@@ -35,5 +37,4 @@ resource "azurerm_virtual_network_gateway" "hub_expressroute_gateway" {
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = var.gateway_subnet_id
   }
-  depends_on = [azurerm_public_ip.hub_expressroute_gateway1_pip]
 }

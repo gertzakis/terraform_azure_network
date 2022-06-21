@@ -12,16 +12,16 @@ provider "azurerm" {
   alias = "connectivity"
 
   features {}
-  subscription_id = "952f2163-960c-48fb-867a-315f541fdd1e"
-  tenant_id       = "76f9037d-0b73-4a41-bcac-cbccd1f1c412"
+  # Use environment variable TF_VAR_conn_sub_id
+  subscription_id = var.conn_sub_id
 }
 
 provider "azurerm" {
   alias = "identity"
 
   features {}
-  subscription_id = "952f2163-960c-48fb-867a-315f541fdd1e"
-  tenant_id       = "76f9037d-0b73-4a41-bcac-cbccd1f1c412"
+  # Use environment variable TF_VAR_identity_sub_id
+  subscription_id =  var.identity_sub_id
 }
 
 provider "azurerm" {
