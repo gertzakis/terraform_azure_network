@@ -24,18 +24,6 @@ resource "azurerm_virtual_network" "spoke_vnet" {
 
 }
 
-# Spoke Subnets
-resource "azurerm_subnet" "spoke_subnet" {
-  provider = azurerm.spoke
-
-  for_each             = var.spoke_vnet_subnets
-  name                 = each.value["name"]
-  address_prefixes     = [each.value["address_prefixes"]]
-  virtual_network_name = azurerm_virtual_network.spoke_vnet.name
-  resource_group_name  = azurerm_resource_group.spoke_vnet_rg.name
-  depends_on           = [azurerm_virtual_network.spoke_vnet]
-}
-
 # Spoke to Hub peering
 resource "azurerm_virtual_network_peering" "spoke_hub_peer" {
   provider                  = azurerm.spoke
@@ -65,10 +53,57 @@ resource "azurerm_virtual_network_peering" "hub_spoke_peer" {
   depends_on                   = [azurerm_virtual_network.spoke_vnet]
 }
 
+# NSGs for every subnet in this Spoke
+resource "azurerm_network_security_group" "spoke_nsg" {
+  provider = azurerm.spoke
+
+  for_each = var.spoke_vnet_subnets
+
+  name                = "${each.value["nsg_name"]}"
+  location            = azurerm_resource_group.spoke_vnet_rg.location
+  resource_group_name = azurerm_resource_group.spoke_vnet_rg.name
+
+}
+
+# Spoke Subnets
+resource "azurerm_subnet" "spoke_subnet" {
+  provider = azurerm.spoke
+
+  for_each             = var.spoke_vnet_subnets
+  name                 = each.value["name"]
+  address_prefixes     = [each.value["address_prefixes"]]
+  virtual_network_name = azurerm_virtual_network.spoke_vnet.name
+  resource_group_name  = azurerm_resource_group.spoke_vnet_rg.name
+  depends_on           = [azurerm_virtual_network.spoke_vnet]
+}
+
+# NSGs with Subnets associations
+resource "azurerm_subnet_network_security_group_association" "spoke_nsg_associations" {
+  depends_on = [
+    azurerm_subnet.spoke_subnet,
+    azurerm_network_security_group.spoke_nsg
+  ]
+  provider = azurerm.spoke
+
+  for_each = { for k, v in var.spoke_vnet_subnets : k => v if lookup(v, "nsg_name", "") != "" }
+
+  subnet_id                 = azurerm_subnet.spoke_subnet[each.key].id
+  network_security_group_id = azurerm_network_security_group.spoke_nsg[each.key].id
+}
+
 # Route table for this Spoke Vnet
 resource "azurerm_route_table" "spoke_udr" {
+  provider = azurerm.spoke
   name                          = "${azurerm_virtual_network.spoke_vnet.name}-udr"
   location                      = azurerm_resource_group.spoke_vnet_rg.location
   resource_group_name           = azurerm_resource_group.spoke_vnet_rg.name
   disable_bgp_route_propagation = true
+}
+
+# Route table association for every subnet in Spoke
+resource "azurerm_subnet_route_table_association" "udr_association" {
+  provider = azurerm.spoke
+  for_each = { for k, v in var.spoke_vnet_subnets : k => v }
+  subnet_id      = azurerm_subnet.spoke_subnet[each.key].id
+  route_table_id = azurerm_route_table.spoke_udr.id
 }
