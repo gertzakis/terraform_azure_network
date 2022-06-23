@@ -79,4 +79,5 @@ module "spoke_network" {
   hub_resource_group   = var.hub_resource_group
   hub_vnet_name        = var.hub_vnet_name
   spoke_vnet_subnets   = var.identity_vnet_subnets
+  spoke_udr_name       = var.identity_udr_name
 }

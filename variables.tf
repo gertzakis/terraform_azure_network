@@ -53,6 +53,11 @@ variable "identity_vnet_subnets" {
   type        = map(any)
 }
 
+variable "identity_udr_name" {
+  description = "UDR name of Identity Vnet"
+  type        = string
+}
+
 variable "er_gateway_pip_name" {
   description = "ER Public IP name"
   type        = string
@@ -111,3 +116,4 @@ variable "identity_sub_id" {
   type = string
 
 }
+

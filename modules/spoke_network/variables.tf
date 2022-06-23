@@ -19,7 +19,7 @@ variable "spoke_vnet_cidr" {
 
 variable "spoke_vnet_subnets" {
   description = "Subnets of Spoke Vnet"
-  type = map(any)
+  type        = map(any)
 }
 
 variable "hub_vnet_id" {
@@ -34,5 +34,10 @@ variable "hub_resource_group" {
 
 variable "hub_vnet_name" {
   description = "Hub Virtual Network name"
+  type        = string
+}
+
+variable "spoke_udr_name" {
+  description = "UDR name for this spoke"
   type        = string
 }
