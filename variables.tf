@@ -28,35 +28,41 @@ variable "firewall_subnet" {
   type        = string
 }
 
-variable "identity_resource_group" {
-  description = "Resource Group for Identity Vnet & subnets"
-  type        = string
+variable "spoke_networks" {
+  description = "Spoke networks values"
+  type = any
+  
 }
 
-variable "identity_vnet_name" {
-  description = "Identity Vnet name"
-  type        = string
-}
+# variable "identity_resource_group" {
+#   description = "Resource Group for Identity Vnet & subnets"
+#   type        = string
+# }
 
-variable "identity_vnet_location" {
-  description = "Identity Vnet location/region"
-  type        = string
-}
+# variable "identity_vnet_name" {
+#   description = "Identity Vnet name"
+#   type        = string
+# }
 
-variable "identity_vnet_cidr" {
-  description = "Identity Vnet CIDR"
-  type        = string
-}
+# variable "identity_vnet_location" {
+#   description = "Identity Vnet location/region"
+#   type        = string
+# }
 
-variable "identity_vnet_subnets" {
-  description = "Subnets of Identity Vnet"
-  type        = map(any)
-}
+# variable "identity_vnet_cidr" {
+#   description = "Identity Vnet CIDR"
+#   type        = string
+# }
 
-variable "identity_udr_name" {
-  description = "UDR name of Identity Vnet"
-  type        = string
-}
+# variable "identity_vnet_subnets" {
+#   description = "Subnets of Identity Vnet"
+#   type        = map(any)
+# }
+
+# variable "identity_udr_name" {
+#   description = "UDR name of Identity Vnet"
+#   type        = string
+# }
 
 variable "er_gateway_pip_name" {
   description = "ER Public IP name"

@@ -69,15 +69,17 @@ module "spoke_network" {
     module.vpn_gateway
   ]
 
+  for_each = var.spoke_networks
+
   providers = { azurerm.spoke = azurerm.identity
   azurerm.connectivity = azurerm.connectivity }
-  spoke_location       = var.identity_vnet_location
-  spoke_resource_group = var.identity_resource_group
-  spoke_vnet_name      = var.identity_vnet_name
-  spoke_vnet_cidr      = var.identity_vnet_cidr
+  spoke_location       = each.value["vnet_location"]
+  spoke_resource_group = each.value["vnet_resource_group"]
+  spoke_vnet_name      = each.value["vnet_name"]
+  spoke_vnet_cidr      = each.value["vnet_cidr"]
   hub_vnet_id          = module.hub_network.hub_vnet_id
   hub_resource_group   = var.hub_resource_group
   hub_vnet_name        = var.hub_vnet_name
-  spoke_vnet_subnets   = var.identity_vnet_subnets
-  spoke_udr_name       = var.identity_udr_name
+  spoke_vnet_subnets   = each.value["vnet_subnets"]
+  spoke_udr_name       = each.value["vnet_udr_name"]
 }
