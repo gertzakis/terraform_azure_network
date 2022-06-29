@@ -58,6 +58,11 @@ variable "identity_udr_name" {
   type        = string
 }
 
+variable "identity_udr_routes" {
+  description = "UDR routes of Identity Vnet"
+  type        = map(any)
+}
+
 variable "er_gateway_pip_name" {
   description = "ER Public IP name"
   type        = string
