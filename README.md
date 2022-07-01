@@ -11,7 +11,7 @@ Deploys a Hub and Spoke topology with ExpressRoute Gateway, VPN Gateway And Azur
 ## Modules 
 Every module is created to do one job and variables that are used inside the modules are passed from the root one.
 
-`hub_network` deploys the Hub resource group with Virtual Network and the necessary subnets for the Hub (GatewawySubnet, AzureFirewallSubnet).
+`hub_network` deploys the Hub resource group with Virtual Network and the necessary subnets for the Hub (GatewaySubnet, AzureFirewallSubnet).
 
 `er_gateway` deploys the ExpressRoute Gateway with his necessary public IP.
 
@@ -21,5 +21,3 @@ Every module is created to do one job and variables that are used inside the mod
 
 `spoke_network` deploys another Vnet, with subnets, sNSG for every subnet and their associations, and one UDR associated with all spoke subnets. 
 **NSGs and UDRs are empty** of rules and routes respectively.
-
-
