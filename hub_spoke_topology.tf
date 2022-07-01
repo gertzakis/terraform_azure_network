@@ -10,9 +10,10 @@ module "hub_network" {
   hub_vnet_cidr      = var.hub_vnet_cidr
   gateway_subnet     = var.gateway_subnet
   firewall_subnet    = var.firewall_subnet
+  
 }
 
-# Deploy ER Gateway
+# Deploy ER Gateway ~30min
 module "er_gateway" {
   source = "./modules/er_gateway"
   depends_on = [
@@ -28,7 +29,7 @@ module "er_gateway" {
 
 }
 
-# Deploy VPN Gateway
+# Deploy VPN Gateway ~30min
 module "vpn_gateway" {
   source = "./modules/vpn_gateway"
   depends_on = [
@@ -44,7 +45,7 @@ module "vpn_gateway" {
   vpn_gateway_sku      = var.vpn_gateway_sku
 }
 
-# Deploy Azure Firewall
+# Deploy Azure Firewall ~30min
 module "azure_firewall" {
   source = "./modules/azure_firewall"
   depends_on = [
@@ -81,3 +82,4 @@ module "spoke_network" {
   spoke_vnet_subnets   = var.identity_vnet_subnets
   spoke_udr_name       = var.identity_udr_name
 }
+
