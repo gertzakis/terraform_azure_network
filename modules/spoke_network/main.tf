@@ -39,7 +39,7 @@ resource "azurerm_virtual_network_peering" "spoke_hub_peer" {
   allow_virtual_network_access = true
   allow_forwarded_traffic      = true
   allow_gateway_transit        = false
-  use_remote_gateways          = true
+  use_remote_gateways          = false
 }
 
 # Hub to Spoke peering
@@ -104,9 +104,39 @@ resource "azurerm_route_table" "spoke_udr" {
 
 # Route table association for every subnet in Spoke
 resource "azurerm_subnet_route_table_association" "udr_association" {
+  depends_on = [
+    azurerm_subnet.spoke_subnet,
+    azurerm_route_table.spoke_udr
+  ]
   provider = azurerm.spoke
 
   for_each       = { for k, v in var.spoke_vnet_subnets : k => v }
   subnet_id      = azurerm_subnet.spoke_subnet[each.key].id
   route_table_id = azurerm_route_table.spoke_udr.id
+}
+
+# UDR route for this Spoke Vnet through Azure Fabric
+resource "azurerm_route" "spoke_vnet_udr_route" {
+  depends_on = [azurerm_route_table.spoke_udr]
+  provider   = azurerm.spoke
+
+  name                = azurerm_virtual_network.spoke_vnet.name
+  resource_group_name = azurerm_resource_group.spoke_vnet_rg.name
+  route_table_name    = azurerm_route_table.spoke_udr.name
+  address_prefix      = var.spoke_vnet_cidr
+  next_hop_type       = "VnetLocal"
+}
+
+# UDR routes traffic forcing to Firewall this Spoke Vnet
+resource "azurerm_route" "spoke_udr_routes" {
+  depends_on = [azurerm_route_table.spoke_udr]
+  provider   = azurerm.spoke
+
+  for_each               = var.spoke_udr_routes
+  name                   = each.value["name"]
+  resource_group_name    = azurerm_resource_group.spoke_vnet_rg.name
+  route_table_name       = azurerm_route_table.spoke_udr.name
+  address_prefix         = each.value["address_prefix"]
+  next_hop_type          = each.value["next_hop_type"]
+  next_hop_in_ip_address = each.value["next_hop_in_ip_address"]
 }
