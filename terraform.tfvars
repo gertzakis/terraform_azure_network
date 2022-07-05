@@ -20,20 +20,6 @@ identity_vnet_name      = "ebpi-we-vnet-prod"
 identity_vnet_location  = "westeurope"
 identity_vnet_cidr      = "10.10.0.0/20"
 identity_udr_name       = "ebpi-we-udr-forced-tunneling-to-nva"
-identity_udr_routes = {
-  route_01 = {
-    name                   = "10.20.0.0_20"
-    address_prefix         = "10.20.0.0/20"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.0.0.4"
-  }
-  route_02 = {
-    name                   = "10.10.0.0_20"
-    address_prefix         = "10.30.0.0/20"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.0.0.4"
-  }
-}
 identity_vnet_subnets = {
   subnet_1 = {
     name             = "ebpi-we-vnet-hub-sub-term-10.10.0.0_24"
@@ -45,4 +31,18 @@ identity_vnet_subnets = {
     address_prefixes = "10.10.1.0/24"
     nsg_name         = "ebpi-we-nsg-subnet-10.10.1.0_24"
   }
+}
+identity_udr_routes = {
+  route_01 = {
+    name                   = "10.20.0.0_20"
+    address_prefix         = "10.20.0.0/20"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "10.0.0.4"
+  }
+  # route_02 = {
+  #   name                   = "10.10.0.0_20"
+  #   address_prefix         = "10.30.0.0/20"
+  #   next_hop_type          = "VirtualAppliance"
+  #   next_hop_in_ip_address = "10.0.0.4"
+  # }
 }

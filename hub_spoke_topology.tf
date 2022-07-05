@@ -66,8 +66,8 @@ module "spoke_network" {
   source = "./modules/spoke_network"
   depends_on = [
     module.hub_network,
-    # module.er_gateway,
-    # module.vpn_gateway
+    module.er_gateway,
+    module.vpn_gateway
   ]
 
   providers = { azurerm.spoke = azurerm.identity

@@ -115,28 +115,28 @@ resource "azurerm_subnet_route_table_association" "udr_association" {
   route_table_id = azurerm_route_table.spoke_udr.id
 }
 
-# UDR route for this Spoke Vnet through Azure Fabric
-resource "azurerm_route" "spoke_vnet_udr_route" {
-  depends_on = [azurerm_route_table.spoke_udr]
-  provider   = azurerm.spoke
+# # UDR route for this Spoke Vnet through Azure Fabric
+# resource "azurerm_route" "spoke_vnet_udr_route" {
+#   depends_on = [azurerm_route_table.spoke_udr]
+#   provider   = azurerm.spoke
 
-  name                = azurerm_virtual_network.spoke_vnet.name
-  resource_group_name = azurerm_resource_group.spoke_vnet_rg.name
-  route_table_name    = azurerm_route_table.spoke_udr.name
-  address_prefix      = var.spoke_vnet_cidr
-  next_hop_type       = "VnetLocal"
-}
+#   name                = azurerm_virtual_network.spoke_vnet.name
+#   resource_group_name = azurerm_resource_group.spoke_vnet_rg.name
+#   route_table_name    = azurerm_route_table.spoke_udr.name
+#   address_prefix      = var.spoke_vnet_cidr
+#   next_hop_type       = "VnetLocal"
+# }
 
-# UDR routes traffic forcing to Firewall this Spoke Vnet
-resource "azurerm_route" "spoke_udr_routes" {
-  depends_on = [azurerm_route_table.spoke_udr]
-  provider   = azurerm.spoke
+# # UDR routes traffic forcing to Firewall this Spoke Vnet
+# resource "azurerm_route" "spoke_udr_routes" {
+#   depends_on = [azurerm_route_table.spoke_udr]
+#   provider   = azurerm.spoke
 
-  for_each               = var.spoke_udr_routes
-  name                   = each.value["name"]
-  resource_group_name    = azurerm_resource_group.spoke_vnet_rg.name
-  route_table_name       = azurerm_route_table.spoke_udr.name
-  address_prefix         = each.value["address_prefix"]
-  next_hop_type          = each.value["next_hop_type"]
-  next_hop_in_ip_address = each.value["next_hop_in_ip_address"]
-}
+#   for_each               = var.spoke_udr_routes
+#   name                   = each.value["name"]
+#   resource_group_name    = azurerm_resource_group.spoke_vnet_rg.name
+#   route_table_name       = azurerm_route_table.spoke_udr.name
+#   address_prefix         = each.value["address_prefix"]
+#   next_hop_type          = each.value["next_hop_type"]
+#   next_hop_in_ip_address = each.value["next_hop_in_ip_address"]
+# }
