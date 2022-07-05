@@ -28,6 +28,11 @@ variable "firewall_subnet" {
   type        = string
 }
 
+variable "bastion_subnet" {
+  description = "Hub Virtual Network BastionSubnet CIDR"
+  type        = string
+}
+
 variable "identity_resource_group" {
   description = "Resource Group for Identity Vnet & subnets"
   type        = string
@@ -58,10 +63,10 @@ variable "identity_udr_name" {
   type        = string
 }
 
-variable "identity_udr_routes" {
-  description = "UDR routes of Identity Vnet"
-  type        = map(any)
-}
+# variable "identity_udr_routes" {
+#   description = "UDR routes of Identity Vnet"
+#   type        = map(any)
+# }
 
 variable "er_gateway_pip_name" {
   description = "ER Public IP name"
@@ -112,13 +117,13 @@ variable "firewall_sku_tier" {
 
 variable "conn_sub_id" {
   description = "Connectivity Subscription ID"
-  type = string
+  type        = string
 
 }
 
 variable "identity_sub_id" {
   description = "Identity Subscription ID"
-  type = string
+  type        = string
 
 }
 

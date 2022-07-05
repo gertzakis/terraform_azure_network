@@ -10,7 +10,7 @@ module "hub_network" {
   hub_vnet_cidr      = var.hub_vnet_cidr
   gateway_subnet     = var.gateway_subnet
   firewall_subnet    = var.firewall_subnet
-  
+  bastion_subnet     = var.bastion_subnet
 }
 
 # Deploy ER Gateway ~30min
@@ -81,6 +81,6 @@ module "spoke_network" {
   hub_vnet_name        = var.hub_vnet_name
   spoke_vnet_subnets   = var.identity_vnet_subnets
   spoke_udr_name       = var.identity_udr_name
-  spoke_udr_routes     = var.identity_udr_routes
+  # spoke_udr_routes     = var.identity_udr_routes
 }
 

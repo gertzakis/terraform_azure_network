@@ -37,6 +37,14 @@ resource "azurerm_subnet" "hub_gateway_subnet" {
   address_prefixes     = [var.gateway_subnet]
 }
 
+# Bastion Subnet
+resource "azurerm_subnet" "hub_bastion_subnet" {
+  name                 = "AzureBastionSubnet"
+  resource_group_name  = azurerm_resource_group.hub_vnet_rg.name
+  virtual_network_name = azurerm_virtual_network.hub_vnet.name
+  address_prefixes     = [var.bastion_subnet]
+}
+
 # Route table for this Spoke Vnet
 resource "azurerm_route_table" "gateway_udr" {
   name                          = "${azurerm_subnet.hub_gateway_subnet.name}-udr"
