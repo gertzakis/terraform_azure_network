@@ -21,7 +21,7 @@ provider "azurerm" {
 
   features {}
   # Use environment variable TF_VAR_identity_sub_id
-  subscription_id =  var.identity_sub_id
+  subscription_id = var.identity_sub_id
 }
 
 provider "azurerm" {

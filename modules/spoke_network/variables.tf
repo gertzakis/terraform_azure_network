@@ -44,5 +44,5 @@ variable "spoke_udr_name" {
 
 variable "spoke_udr_routes" {
   description = "UDR routes for this spoke"
-  type = map(any)
+  type        = map(any)
 }

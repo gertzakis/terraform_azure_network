@@ -77,6 +77,7 @@ resource "azurerm_subnet" "spoke_subnet" {
   address_prefixes     = [each.value["address_prefixes"]]
   virtual_network_name = azurerm_virtual_network.spoke_vnet.name
   resource_group_name  = azurerm_resource_group.spoke_vnet_rg.name
+  
 }
 
 # NSGs with Subnets associations

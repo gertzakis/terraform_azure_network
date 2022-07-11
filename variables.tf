@@ -112,13 +112,13 @@ variable "firewall_sku_tier" {
 
 variable "conn_sub_id" {
   description = "Connectivity Subscription ID"
-  type = string
+  type        = string
 
 }
 
 variable "identity_sub_id" {
   description = "Identity Subscription ID"
-  type = string
+  type        = string
 
 }
 

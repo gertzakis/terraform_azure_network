@@ -7,24 +7,30 @@ terraform {
   }
 }
 
-# Hub Resource Group
-resource "azurerm_resource_group" "hub_vnet_rg" {
-  name     = var.hub_resource_group
-  location = var.hub_location
+# # Hub Resource Group
+# resource "azurerm_resource_group" "hub_vnet_rg" {
+#   name     = var.hub_resource_group
+#   location = var.hub_location
+#   tags     = local.required_tags
+# }
+
+data "azurerm_resource_group" "hub_vnet_rg" {
+  name = "makis-test"
 }
 
 # Hub Vnet
 resource "azurerm_virtual_network" "hub_vnet" {
   name                = var.hub_vnet_name
-  location            = azurerm_resource_group.hub_vnet_rg.location
-  resource_group_name = azurerm_resource_group.hub_vnet_rg.name
+  location            = data.azurerm_resource_group.hub_vnet_rg.location
+  resource_group_name = data.azurerm_resource_group.hub_vnet_rg.name
   address_space       = [var.hub_vnet_cidr]
+  tags                = local.required_tags
 }
 
 # Firewall Subnet
 resource "azurerm_subnet" "hub_firewall_subnet" {
   name                 = "AzureFirewallSubnet"
-  resource_group_name  = azurerm_resource_group.hub_vnet_rg.name
+  resource_group_name  = data.azurerm_resource_group.hub_vnet_rg.name
   virtual_network_name = azurerm_virtual_network.hub_vnet.name
   address_prefixes     = [var.firewall_subnet]
 }
@@ -32,7 +38,7 @@ resource "azurerm_subnet" "hub_firewall_subnet" {
 # Gateway Subnet
 resource "azurerm_subnet" "hub_gateway_subnet" {
   name                 = "GatewaySubnet"
-  resource_group_name  = azurerm_resource_group.hub_vnet_rg.name
+  resource_group_name  = data.azurerm_resource_group.hub_vnet_rg.name
   virtual_network_name = azurerm_virtual_network.hub_vnet.name
   address_prefixes     = [var.gateway_subnet]
 }
@@ -40,8 +46,8 @@ resource "azurerm_subnet" "hub_gateway_subnet" {
 # Route table for this Spoke Vnet
 resource "azurerm_route_table" "gateway_udr" {
   name                          = "${azurerm_subnet.hub_gateway_subnet.name}-udr"
-  location                      = azurerm_resource_group.hub_vnet_rg.location
-  resource_group_name           = azurerm_resource_group.hub_vnet_rg.name
+  location                      = data.azurerm_resource_group.hub_vnet_rg.location
+  resource_group_name           = data.azurerm_resource_group.hub_vnet_rg.name
   disable_bgp_route_propagation = false
 }
 

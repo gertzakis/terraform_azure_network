@@ -14,13 +14,13 @@ resource "azurerm_public_ip" "hub_expressroute_gateway1_pip" {
   resource_group_name = var.hub_resource_group
 
   allocation_method = "Static"
-  sku = "Standard"
+  sku               = "Standard"
 }
 
 # Virtual Network Gateway - ExpressRoute
 resource "azurerm_virtual_network_gateway" "hub_expressroute_gateway" {
   depends_on = [azurerm_public_ip.hub_expressroute_gateway1_pip]
-  
+
   name                = var.er_gateway_name
   location            = var.hub_location
   resource_group_name = var.hub_resource_group

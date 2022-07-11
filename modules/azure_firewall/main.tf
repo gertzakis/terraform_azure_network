@@ -14,7 +14,7 @@ resource "azurerm_public_ip" "hub_firewall_pip" {
   resource_group_name = var.hub_resource_group
 
   allocation_method = "Static"
-  sku = "Standard"
+  sku               = "Standard"
 }
 
 # Azure Firewall

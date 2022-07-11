@@ -10,40 +10,40 @@ module "hub_network" {
   hub_vnet_cidr      = var.hub_vnet_cidr
   gateway_subnet     = var.gateway_subnet
   firewall_subnet    = var.firewall_subnet
-  
-}
-
-# Deploy ER Gateway ~30min
-module "er_gateway" {
-  source = "./modules/er_gateway"
-  depends_on = [
-    module.hub_network
-  ]
-  providers           = { azurerm = azurerm.connectivity }
-  hub_location        = var.hub_location
-  gateway_subnet_id   = module.hub_network.gateway_subnet_id
-  hub_resource_group  = var.hub_resource_group
-  er_gateway_pip_name = var.er_gateway_pip_name
-  er_gateway_name     = var.er_gateway_name
-  er_gateway_sku      = var.er_gateway_sku
 
 }
 
-# Deploy VPN Gateway ~30min
-module "vpn_gateway" {
-  source = "./modules/vpn_gateway"
-  depends_on = [
-    module.hub_network,
-    module.er_gateway
-  ]
-  providers            = { azurerm = azurerm.connectivity }
-  hub_location         = var.hub_location
-  gateway_subnet_id    = module.hub_network.gateway_subnet_id
-  hub_resource_group   = var.hub_resource_group
-  vpn_gateway_pip_name = var.vpn_gateway_pip_name
-  vpn_gateway_name     = var.vpn_gateway_name
-  vpn_gateway_sku      = var.vpn_gateway_sku
-}
+# # Deploy ER Gateway ~30min
+# module "er_gateway" {
+#   source = "./modules/er_gateway"
+#   depends_on = [
+#     module.hub_network
+#   ]
+#   providers           = { azurerm = azurerm.connectivity }
+#   hub_location        = var.hub_location
+#   gateway_subnet_id   = module.hub_network.gateway_subnet_id
+#   hub_resource_group  = var.hub_resource_group
+#   er_gateway_pip_name = var.er_gateway_pip_name
+#   er_gateway_name     = var.er_gateway_name
+#   er_gateway_sku      = var.er_gateway_sku
+
+# }
+
+# # Deploy VPN Gateway ~30min
+# module "vpn_gateway" {
+#   source = "./modules/vpn_gateway"
+#   depends_on = [
+#     module.hub_network,
+#     module.er_gateway
+#   ]
+#   providers            = { azurerm = azurerm.connectivity }
+#   hub_location         = var.hub_location
+#   gateway_subnet_id    = module.hub_network.gateway_subnet_id
+#   hub_resource_group   = var.hub_resource_group
+#   vpn_gateway_pip_name = var.vpn_gateway_pip_name
+#   vpn_gateway_name     = var.vpn_gateway_name
+#   vpn_gateway_sku      = var.vpn_gateway_sku
+# }
 
 # Deploy Azure Firewall ~30min
 module "azure_firewall" {
@@ -66,8 +66,8 @@ module "spoke_network" {
   source = "./modules/spoke_network"
   depends_on = [
     module.hub_network,
-    module.er_gateway,
-    module.vpn_gateway
+    # module.er_gateway,
+    # module.vpn_gateway
   ]
 
   providers = { azurerm.spoke = azurerm.identity
