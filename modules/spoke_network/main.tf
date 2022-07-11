@@ -91,6 +91,9 @@ resource "azurerm_route_table" "spoke_udr" {
 
 # Read subnets to get IDs for RouteTable associations
 data "azurerm_subnet" "subnets" {
+  depends_on = [
+    azurerm_virtual_network.spoke_vnet
+  ]
 
   for_each             = var.spoke_vnet_subnets
   name                 = each.value["name"]
