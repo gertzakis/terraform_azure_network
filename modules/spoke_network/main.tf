@@ -26,7 +26,7 @@ resource "azurerm_network_security_group" "spoke_nsg" {
   resource_group_name = azurerm_resource_group.spoke_vnet_rg.name
 }
 
-# Spoke Vnet
+# Spoke Vnet with subnets and NSGs associations.
 resource "azurerm_virtual_network" "spoke_vnet" {
   provider = azurerm.spoke
   depends_on = [
