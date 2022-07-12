@@ -15,6 +15,7 @@ resource "azurerm_public_ip" "hub_vpn_gateway1_pip" {
 
   allocation_method = "Static"
   sku = "Standard"
+  zones = [ "1", "2", "3" ]
 }
 
 # Virtual Network Gateway - VPN
