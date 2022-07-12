@@ -94,6 +94,7 @@ data "azurerm_subnet" "subnets" {
   depends_on = [
     azurerm_virtual_network.spoke_vnet
   ]
+  provider = azurerm.spoke
 
   for_each             = var.spoke_vnet_subnets
   name                 = each.value["name"]
